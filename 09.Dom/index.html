@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h1 id="main-heading"></h1>
+    <div>
+      <script>
+        function test() {}
+      </script>
+    </div>
+    <div id="main-content">
+      <button class="danger"></button>
+      <button></button>
+      <input type="text" name="login">
+    </div>
+    <script>
+      test();
+      document.getElementById('main-heading');
+      document.querySelector('#main-heading');
+      document.querySelector('#main-content button');
+      document.querySelector('#main-content .danger');
+      document.querySelector('input[name="login"]');
+      document.getElementsByTagName('h1')[0].innerHTML = 'TEST!';
+    </script>
+    <!-- <script>
+      src = './';
+    </script> -->
+  </body>
+</html>
