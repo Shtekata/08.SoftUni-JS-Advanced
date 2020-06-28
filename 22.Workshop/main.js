@@ -14,7 +14,8 @@
     fireInterval: 1000,
     cloudSpanInterval: 3000 + 20000 * Math.random(),
     bugSpanInterval: 1000,
-    bugKillScore: 2000,
+    bugKillScore: 100,
+    bugGoneScore: 25,
   };
 
   const utils = {
@@ -79,6 +80,14 @@
   };
 
   function createGameplay() {
+    const bugs = scene.bugs;
+    if (bugs.length > 0) {
+      bugs.forEach((x) => x.remove());
+    }
+    const clouds = scene.clouds;
+    if (clouds.length > 0) {
+      clouds.forEach((x) => x.remove());
+    }
     return {
       loopId: null,
       nextRenderQueue: [],
@@ -92,7 +101,7 @@
 
   function init() {
     gameplay = createGameplay();
-    gameScoreValueEl.textContent = 0;
+    gameScoreValueEl.textContent = 100;
     wizardCoordinates.x = 200;
     wizardCoordinates.y = 200;
     wizardEl.classList.remove('hidden');
@@ -243,9 +252,16 @@
         config.bugKillScore + +gameScoreValueEl.textContent;
       return true;
     }
-    if (utils.hasCollision(wizardEl, bugEl)) {
+    if (
+      utils.hasCollision(wizardEl, bugEl) ||
+      gameScoreValueEl.textContent == 0
+    ) {
       gameOver();
       return true;
+    }
+    let bugX = utils.pxToNumber(bugEl.style.left);
+    if (bugX + bugEl.offsetWidth - 1 === 0) {
+      gameScoreValueEl.textContent -= config.bugGoneScore;
     }
     return false;
   }
@@ -276,7 +292,7 @@
     processClouds(timestamp);
     processBugs(timestamp);
 
-    gameScoreValueEl.textContent++;
+    // gameScoreValueEl.textContent++;
   }
 
   gameStartEl.addEventListener('click', function gameStartHandler() {
